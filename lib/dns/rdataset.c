@@ -646,22 +646,19 @@ dns_rdataset_getownercase(const dns_rdataset_t *rdataset, dns_name_t *name) {
 
 void
 dns_rdataset_trimttl(dns_rdataset_t *rdataset, dns_rdataset_t *sigrdataset,
-		     dns_rdata_rrsig_t *rrsig, isc_stdtime_t now,
-		     bool acceptexpired) {
+			 dns_rdata_rrsig_t *rrsig, isc_stdtime_t now,
+			 unsigned int max_keep_seconds) {
 	uint32_t ttl = 0;
 
 	REQUIRE(DNS_RDATASET_VALID(rdataset));
 	REQUIRE(DNS_RDATASET_VALID(sigrdataset));
 	REQUIRE(rrsig != NULL);
 
-	/*
-	 * If we accept expired RRsets keep them for no more than 3 seconds.
-	 */
-	if (acceptexpired &&
-	    (isc_serial_le(rrsig->timeexpire, ((now + 3) & 0xffffffff)) ||
-	     isc_serial_le(rrsig->timeexpire, now)))
+	if (max_keep_seconds != 0 &&
+		(isc_serial_le(rrsig->timeexpire, ((now + max_keep_seconds) & 0xffffffff)) ||
+		 isc_serial_le(rrsig->timeexpire, now)))
 	{
-		ttl = 3;
+		ttl = max_keep_seconds;
 	} else if (isc_serial_ge(rrsig->timeexpire, now)) {
 		ttl = rrsig->timeexpire - now;
 	}

@@ -1698,8 +1698,8 @@ validate_answer_finish(void *arg) {
 
 	if (val->result == ISC_R_SUCCESS) {
 		dns_rdataset_trimttl(val->rdataset, val->sigrdataset,
-				     val->siginfo, val->start,
-				     val->view->acceptexpired);
+						 val->siginfo, val->start,
+						 (val->view->acceptexpired ? 120U : 0U));
 	}
 
 	if (val->key != NULL) {
