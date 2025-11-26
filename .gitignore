@@ -1,3 +1,4 @@
+### Project ###
 *-symtbl.c
 *.a
 *.gcda
@@ -100,3 +101,31 @@ doc/man/pkcs11-tokens.8in
 \.dir-locals-2.el
 /emacs.desktop
 /emacs.desktop-lock
+
+### OS ###
+# macOS
+Thumbs.db
+.DS_Store
+.AppleDouble
+.LSOverride
+*.tmp
+# Windows
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+### IDE ###
+build/
+out/
+.cxx/
+.externalNativeBuild/
+.idea/
+.idea_modules/
+.gradle/
+local.properties
+output.json
+!gradle/wrapper/gradle-wrapper.jar
+*.iml
